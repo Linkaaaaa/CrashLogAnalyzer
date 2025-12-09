@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CrashLogAnalyzer": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
