@@ -8,6 +8,11 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>.</DockerfileContext>
 		<ApplicationIcon>Images\LI.ico</ApplicationIcon>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Linkaaaaa/CrashLogAnalyzer</RepositoryUrl>
+		<Authors>Linka</Authors>
+		<Description>Discord application to analyze ArcDPS crash logs.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,6 +29,17 @@
 		<PackageReference Include="Discord.Net" Version="3.18.0" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
