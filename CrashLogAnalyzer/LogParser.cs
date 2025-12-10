@@ -6,6 +6,9 @@ using static CrashLogAnalyzer.Traces;
 
 namespace CrashLogAnalyzer;
 
+/// <summary>
+/// Main class for parsing ArcDPS crash logs.
+/// </summary>
 public partial class LogParser
 {
     /// <summary>

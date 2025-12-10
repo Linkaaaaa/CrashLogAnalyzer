@@ -226,7 +226,8 @@ public partial class Program
                 .WithColor(_blue)
                 .WithTitle("ArcDPS Interference")
                 .AddField("The following software interfere with ArcDPS when loaded", $"{Software}")
-                .AddField("Troubleshooting steps:", "https://codimd.knox.moe/s/7i-MmOub5")
+                .AddField("The interference aren't present when loaded through Nexus", "https://discord.gg/raidcore")
+                .AddField("Troubleshooting steps", "https://codimd.knox.moe/s/7i-MmOub5")
                 .AddField("Further help needed?", "Ask in #arc-dps-issues channel")
                 .WithFooter(_embedFooterBuilder)
                 .WithTimestamp(DateTimeOffset.Now);
