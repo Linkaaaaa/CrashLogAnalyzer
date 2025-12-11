@@ -62,7 +62,7 @@ public static partial class RegexExt
     private const string _extensionsVersion = @"dll,\s*([^,]+)";
     private const string _extensionsSignatures = @",\s*([A-Fa-f0-9]+)\)\s*$";
     private const string _warnings = @"warning:\s*(.+)$";
-    private const string _errors = @"error:.*?at\s+""([^""]+)""";
+    private const string _errors = @"error:\s*(.*"")(?=[^""\r\n]*$)";
     private const string _stackTraces = @"^(0x[0-9A-Fa-f]+):\s+(0x[0-9A-Fa-f]+)\s+:0\+([0-9A-Fa-f]+)\s+(\S+)(?:\s+\(via export\))?";
     private const string _systemDll = @"([A-Za-z0-9_\-]+\.dll)";
     private const string _arcdpsAsAddon = @"^.*\bas addon\b.*$";
