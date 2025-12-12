@@ -27,6 +27,11 @@ public partial class LogParser
     /// Warning messages.
     /// </summary>
     public HashSet<string> Warnings { get; private set; } = [];
+
+    /// <summary>
+    /// Warning messages for already loaded extensions.
+    /// </summary>
+    public List<string> WarningsLoadedExtensions { get; private set; } = [];
     /// <summary>
     /// Error messages.
     /// </summary>
@@ -158,8 +163,14 @@ public partial class LogParser
                     addon.Address = $"{nameAddressMatch.Groups[2].Value.Trim()}-{nameAddressMatch.Groups[3].Value.Trim()}";
                 }
 
+                Match pathMatch = ExtensionsPath().Match(line);
+                if (pathMatch.Success)
+                {
+                    addon.Path = pathMatch.Groups[1].Value.Trim();
+                }
+
                 // Dll
-                Match dllMatch = ExtensionDll().Match(line);
+                Match dllMatch = ExtensionsDll().Match(line);
                 if (dllMatch.Success)
                 {
                     addon.Dll = dllMatch.Groups[1].Value.Trim();
@@ -187,6 +198,13 @@ public partial class LogParser
             if (warningsMatch.Success)
             {
                 log.Warnings.Add(warningsMatch.Groups[1].Value.Trim());
+            }
+
+            // Warnings Loaded Extensions
+            Match warningsLoadedExtensionsMatch = WarningsLoadedExtensions().Match(line);
+            if (warningsLoadedExtensionsMatch.Success)
+            {
+                log.WarningsLoadedExtensions.Add(warningsLoadedExtensionsMatch.Groups[1].Value.Trim());
             }
 
             // Errors

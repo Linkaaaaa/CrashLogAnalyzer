@@ -10,6 +10,10 @@ public class Extension
     /// </summary>
     public string Name { get; set; } = "";
     /// <summary>
+    /// File path.
+    /// </summary>
+    public string Path { get; set; } = "";
+    /// <summary>
     /// Extension dll file name.
     /// </summary>
     public string Dll { get; set; } = "";

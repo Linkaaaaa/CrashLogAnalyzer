@@ -109,7 +109,7 @@ public partial class Program
                     messageId = message.Id;
 
                     string extensions = "";
-                    string notAllowedExtensions = "";
+                    string removeExtensions = "";
                     string warnings = string.Join("\n", log.Warnings);
                     string errors = string.Join("\n", log.Errors);
                     string stack = string.Join("\n", log.TopMostStackTraces.Select(kvp => $"{kvp.Key}"));
@@ -119,15 +119,12 @@ public partial class Program
                     foreach (Extension extension in log.Extensions)
                     {
                         extensions += extension.Name + "\n";
-                        if (extension.Signature.Equals(Fastload_Candy))
+                        if (extension.Signature.Equals(Fastload_Candy) || extension.Signature.Equals(Gearcheck_Candy))
                         {
-                            notAllowedExtensions += "arcdps_fastload\n";
-                        }
-                        if (extension.Signature.Equals(Gearcheck_Candy))
-                        {
-                            notAllowedExtensions += "arcdps_gearcheck";
+                            removeExtensions += extension.Path + "\n";
                         }
                     }
+                    removeExtensions += string.Join("\n", log.WarningsLoadedExtensions);
 
                     // Loading method
                     switch (log.ArcDPS.Method)
@@ -186,7 +183,7 @@ public partial class Program
                         AddEmbedNotEmptyField(embedBuilder, "Interference", interference);
                     }
 
-                    AddEmbedNotEmptyField(embedBuilder, "Remove extensions", notAllowedExtensions);
+                    AddEmbedNotEmptyField(embedBuilder, "Remove extensions", removeExtensions);
 
                     MessageComponent component = new ComponentBuilder()
                         .WithButton("Print Stack Trace", $"{i}:{messageId}:0")
