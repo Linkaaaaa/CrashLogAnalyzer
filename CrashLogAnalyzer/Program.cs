@@ -115,16 +115,18 @@ public partial class Program
                     string stack = string.Join("\n", log.TopMostStackTraces.Select(kvp => $"{kvp.Key}"));
                     string causes = string.Join("\n", log.PossibleCauses);
 
-                    // Loaded Extensions
+                    // Loaded extensions and to be removed extensions
                     foreach (Extension extension in log.Extensions)
                     {
                         extensions += extension.Name + "\n";
-                        if (extension.Signature.Equals(Fastload_Candy) || extension.Signature.Equals(Gearcheck_Candy))
+                        if (extension.Signature.Equals(Fastload_Candy) || 
+                            extension.Signature.Equals(Gearcheck_Candy) ||
+                            extension.Signature.Equals(KnowThyEnemy))
                         {
-                            removeExtensions += extension.Path + "\n";
+                            removeExtensions += extension.Path + " - (unsupported)\n";
                         }
                     }
-                    removeExtensions += string.Join("\n", log.WarningsLoadedExtensions);
+                    removeExtensions += string.Join(" - (duplicated)\n", log.WarningsLoadedExtensions);
 
                     // Loading method
                     switch (log.ArcDPS.Method)
