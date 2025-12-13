@@ -151,10 +151,19 @@ public partial class Program
                     if (log.GameExit)
                     {
                         AddEmbedNotEmptyField(embedBuilder,
-                            "Known crash cause",
+                            "Known cause",
                             "ArcDPS crashed during game shutdown.\n" +
                             "This is a known but rare issue with no identified cause.\n" +
                             "No action or report is required from the user.");
+                    }
+
+                    if (log.Errors.Any(x => x.Contains("nvwgf2umx.dll")))
+                    {
+                        AddEmbedNotEmptyField(embedBuilder,
+                            "Known cause",
+                            "The crash involves nvwgf2umx.dll (NVIDIA graphics driver).\n" +
+                            "If you have updated recently, downgrade the drivers to a previous version.\n" +
+                            "If there is another update available, try to upgrade to the latest version.");
                     }
 
                     AddEmbedNotEmptyField(embedBuilder, "Possible causes", causes);
