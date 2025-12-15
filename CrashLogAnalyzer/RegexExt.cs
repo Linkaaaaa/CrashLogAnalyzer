@@ -61,6 +61,15 @@ public static partial class RegexExt
     [GeneratedRegex(_wine, RegexOptions.IgnoreCase)]
     public static partial Regex Wine();
 
+    [GeneratedRegex(_code, RegexOptions.IgnoreCase)]
+    public static partial Regex Code();
+
+    [GeneratedRegex(_address, RegexOptions.IgnoreCase)]
+    public static partial Regex Address();
+
+    [GeneratedRegex(_flags, RegexOptions.IgnoreCase)]
+    public static partial Regex Flags();
+
     private const string _arcdpsBuild = @"(?:build\s+|arcdps\s+)?([0-9]{8}\.[0-9]{6}-[0-9]+-[A-Za-z0-9]+)";
     private const string _extensions = @"^.*extensions:.*$";
     private const string _extensionsNameAndAddress = @"extensions:\s*(.+?)\s+(0x[0-9A-Fa-f]+)-(0x[0-9A-Fa-f]+)";
@@ -79,4 +88,7 @@ public static partial class RegexExt
     private const string _ram = @"^\s*ram:\s*(.+)$";
     private const string _gpu = @"^\s*gpu:\s*(.+)$";
     private const string _wine = @"^\s*wine:\s*(.+)$";
+    private const string _code = @"^\s*code:\s*(.+)$";
+    private const string _address = @"^\s*address:\s*(.+)$";
+    private const string _flags = @"^\s*flags:\s*(.+)$";
 }

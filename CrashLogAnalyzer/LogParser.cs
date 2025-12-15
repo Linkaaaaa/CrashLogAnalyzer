@@ -64,6 +64,10 @@ public partial class LogParser
     /// Log line containing "info: game exit". Present for crash log on game shut down.
     /// </summary>
     public bool GameExit { get; private set; } = false;
+    /// <summary>
+    /// Information about the exception that caused the crash.
+    /// </summary>
+    public ExceptionInfo ExceptionInfo { get; private set; } = new();
 
     /// <summary>
     /// Downloads the attachment in the message.
@@ -264,6 +268,25 @@ public partial class LogParser
             if (wineMatch.Success)
             {
                 log.System.Wine = wineMatch.Groups[1].Value.Trim();
+            }
+
+            // Exception Info
+            Match codeMatch = Code().Match(line);
+            if (codeMatch.Success)
+            {
+                log.ExceptionInfo.Code = codeMatch.Groups[1].Value.Trim();
+            }
+
+            Match addressMatch = Address().Match(line);
+            if (addressMatch.Success)
+            {
+                log.ExceptionInfo.Address = addressMatch.Groups[1].Value.Trim();
+            }
+
+            Match flagsMatch = Flags().Match(line);
+            if (flagsMatch.Success)
+            {
+                log.ExceptionInfo.Flags = flagsMatch.Groups[1].Value.Trim();
             }
         }
 

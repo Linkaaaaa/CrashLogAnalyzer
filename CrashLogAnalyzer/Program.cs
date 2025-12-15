@@ -199,6 +199,7 @@ public partial class Program
                     MessageComponent component = new ComponentBuilder()
                         .WithButton("Print Stack Trace", $"{i}:{messageId}:0")
                         .WithButton("Print System Info", $"{i}:{messageId}:1")
+                        .WithButton("Print Exception Info", $"{i}:{messageId}:2")
                         .Build();
 
                     ConsoleTrace("Sending embed.");
@@ -343,6 +344,19 @@ public partial class Program
                         res += "```";
 
                         ConsoleTrace("System information printed.");
+
+                        await component.RespondAsync(res, ephemeral: true);
+                        break;
+                    case 2:
+                        ConsoleTrace("Button ID 2 interacted.");
+                        
+                        res = "```";
+                        res += "Code: " + log.ExceptionInfo.Code + "\n";
+                        res += "Address: " + log.ExceptionInfo.Address + "\n";
+                        res += "Flags: " + log.ExceptionInfo.Flags + "\n";
+                        res += "```";
+
+                        ConsoleTrace("Exception Information printed.");
 
                         await component.RespondAsync(res, ephemeral: true);
                         break;
