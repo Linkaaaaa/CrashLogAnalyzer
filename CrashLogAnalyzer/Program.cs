@@ -126,7 +126,10 @@ public partial class Program
                             removeExtensions += extension.Path + " - (unsupported)\n";
                         }
                     }
-                    removeExtensions += string.Join(" - (duplicated)\n", log.WarningsLoadedExtensions);
+                    foreach (string ext in log.WarningsLoadedExtensions)
+                    {
+                        removeExtensions += ext + " - (duplicated)\n";
+                    }
 
                     // Loading method
                     switch (log.ArcDPS.Method)
@@ -197,9 +200,10 @@ public partial class Program
                     AddEmbedNotEmptyField(embedBuilder, "Remove extensions", removeExtensions);
 
                     MessageComponent component = new ComponentBuilder()
-                        .WithButton("Print Stack Trace", $"{i}:{messageId}:0")
-                        .WithButton("Print System Info", $"{i}:{messageId}:1")
-                        .WithButton("Print Exception Info", $"{i}:{messageId}:2")
+                        .WithButton("Stack Trace", $"{i}:{messageId}:0")
+                        .WithButton("System Info", $"{i}:{messageId}:1")
+                        .WithButton("Exception Info", $"{i}:{messageId}:2")
+                        .WithButton("Extensions A-Z", $"{i}:{messageId}:3")
                         .Build();
 
                     ConsoleTrace("Sending embed.");
@@ -335,7 +339,7 @@ public partial class Program
                     case 1:
                         ConsoleTrace("Button ID 1 interacted.");
 
-                        res = "```";
+                        res = "```\n";
                         res += !string.IsNullOrEmpty(log.System.Wine) ? "Linux (corrected)\n" : "Windows: " + log.System.Windows + "\n";
                         res += "Cpu: " + log.System.Cpu + "\n";
                         res += "Ram: " + log.System.Ram + "\n";
@@ -350,13 +354,27 @@ public partial class Program
                     case 2:
                         ConsoleTrace("Button ID 2 interacted.");
                         
-                        res = "```";
+                        res = "```\n";
                         res += "Code: " + log.ExceptionInfo.Code + "\n";
                         res += "Address: " + log.ExceptionInfo.Address + "\n";
                         res += "Flags: " + log.ExceptionInfo.Flags + "\n";
                         res += "```";
 
                         ConsoleTrace("Exception Information printed.");
+
+                        await component.RespondAsync(res, ephemeral: true);
+                        break;
+                    case 3:
+                        ConsoleTrace("Button ID 3 interacted.");
+
+                        res = "```\n";
+                        foreach (Extension ext in log.Extensions.OrderBy(x => x.Dll))
+                        {
+                            res += ext.Dll + "\n";
+                        }
+                        res += "```";
+
+                        ConsoleTrace("Extension Alphabetically printed.");
 
                         await component.RespondAsync(res, ephemeral: true);
                         break;
