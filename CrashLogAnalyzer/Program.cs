@@ -168,7 +168,8 @@ public partial class Program
                             "Known cause",
                             "The crash involves nvwgf2umx.dll (NVIDIA graphics driver).\n" +
                             "If you have updated recently, downgrade the drivers to a previous version.\n" +
-                            "If there is another update available, try to upgrade to the latest version.");
+                            "If there is another update available, try to upgrade to the latest version.\n" +
+                            "This could also be caused by Guild Wars 2 or a silent issue in ArcDPS or extensions.");
                     }
 
                     AddEmbedNotEmptyField(embedBuilder, "Possible causes", causes);
