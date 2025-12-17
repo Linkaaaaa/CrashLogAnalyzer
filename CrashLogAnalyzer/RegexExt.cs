@@ -70,6 +70,9 @@ public static partial class RegexExt
     [GeneratedRegex(_flags, RegexOptions.IgnoreCase)]
     public static partial Regex Flags();
 
+    [GeneratedRegex(_systemModule, RegexOptions.IgnoreCase)]
+    public static partial Regex SystemModule();
+
     private const string _arcdpsBuild = @"(?:build\s+|arcdps\s+)?([0-9]{8}\.[0-9]{6}-[0-9]+-[A-Za-z0-9]+)";
     private const string _extensions = @"^.*extensions:.*$";
     private const string _extensionsNameAndAddress = @"extensions:\s*(.+?)\s+(0x[0-9A-Fa-f]+)-(0x[0-9A-Fa-f]+)";
@@ -91,4 +94,5 @@ public static partial class RegexExt
     private const string _code = @"^\s*code:\s*(.+)$";
     private const string _address = @"^\s*address:\s*(.+)$";
     private const string _flags = @"^\s*flags:\s*(.+)$";
+    private const string _systemModule = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
 }

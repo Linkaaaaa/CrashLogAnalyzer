@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using DotNetEnv;
+using System.Text;
 using static CrashLogAnalyzer.ArcDPS;
 using static CrashLogAnalyzer.Interference;
 using static CrashLogAnalyzer.Signatures;
@@ -23,6 +24,9 @@ public partial class Program
     {
         Env.Load();
         string? token = Environment.GetEnvironmentVariable("DISCORD_TOKEN");
+#if DEBUG
+        token = Environment.GetEnvironmentVariable("DISCORD_TOKEN_DEBUG");
+#endif
         if (token is null || token.Length == 0)
         {
             ConsoleTrace("Discord token not set or empty. Create .env file with DISCORD_TOKEN field.");
@@ -32,9 +36,9 @@ public partial class Program
         DiscordSocketConfig config = new()
         {
             GatewayIntents =
-              GatewayIntents.Guilds | 
-              GatewayIntents.GuildMessages | 
-              GatewayIntents.DirectMessages | 
+              GatewayIntents.Guilds |
+              GatewayIntents.GuildMessages |
+              GatewayIntents.DirectMessages |
               GatewayIntents.MessageContent
         };
 
@@ -119,7 +123,7 @@ public partial class Program
                     foreach (Extension extension in log.Extensions)
                     {
                         extensions += extension.Name + "\n";
-                        if (extension.Signature.Equals(Fastload_Candy) || 
+                        if (extension.Signature.Equals(Fastload_Candy) ||
                             extension.Signature.Equals(Gearcheck_Candy) ||
                             extension.Signature.Equals(KnowThyEnemy))
                         {
@@ -204,7 +208,7 @@ public partial class Program
                         .WithButton("Stack Trace", $"{i}:{messageId}:0")
                         .WithButton("System Info", $"{i}:{messageId}:1")
                         .WithButton("Exception Info", $"{i}:{messageId}:2")
-                        .WithButton("Extensions A-Z", $"{i}:{messageId}:3")
+                        .WithButton("Loaded Files", $"{i}:{messageId}:3")
                         .Build();
 
                     ConsoleTrace("Sending embed.");
@@ -323,13 +327,26 @@ public partial class Program
 
                         if (log.StackTraces.Count > 0)
                         {
-                            IEnumerable<string> lines = log.StackTraces.Select(x =>
+                            string[] lines = [.. log.StackTraces.Select(x =>
                             {
                                 string line = $"{x.Trace} - {x.Frame} - {x.Rva} - {x.FileShort}";
                                 return x.ViaExport ? line + " (via export)" : line;
-                            });
+                            })];
 
-                            await SendChunkedStackTraceAsync(component, lines);
+                            List<string> chunks = SplitIntoChunks(lines, "Trace ---------- Frame ---------- RVA ----- File Short ---\n");
+                            for (int i = 0; i < chunks.Count; i++)
+                            {
+                                string line = chunks[i];
+                                if (i == 0)
+                                {
+                                    await component.RespondAsync(line, ephemeral: true);
+                                }
+                                else
+                                {
+                                    await component.FollowupAsync(line, ephemeral: true);
+                                }
+                                ConsoleTrace($"Stack Trace printed. - {i}");
+                            }
                         }
                         else
                         {
@@ -354,7 +371,7 @@ public partial class Program
                         break;
                     case 2:
                         ConsoleTrace("Button ID 2 interacted.");
-                        
+
                         res = "```\n";
                         res += "Code: " + log.ExceptionInfo.Code + "\n";
                         res += "Address: " + log.ExceptionInfo.Address + "\n";
@@ -368,16 +385,33 @@ public partial class Program
                     case 3:
                         ConsoleTrace("Button ID 3 interacted.");
 
-                        res = "```\n";
-                        foreach (Extension ext in log.Extensions.OrderBy(x => x.Dll))
+                        if (log.SystemModules.Count > 0)
                         {
-                            res += ext.Dll + "\n";
+                            string[] moduleLines = [.. log.SystemModules.OrderBy(x => x.Path).Select(x =>
+                            {
+                                return x.Path;
+                            })];
+
+                            List<string> moduleChunks = SplitIntoChunks(moduleLines);
+                            for (int i = 0; i < moduleChunks.Count; i++)
+                            {
+                                string line = moduleChunks[i];
+                                if (i == 0)
+                                {
+                                    await component.RespondAsync(line, ephemeral: true);
+                                }
+                                else
+                                {
+                                    await component.FollowupAsync(line, ephemeral: true);
+                                }
+                                ConsoleTrace($"Loaded system modules alphabetically printed - {i}.");
+                            }
                         }
-                        res += "```";
-
-                        ConsoleTrace("Extension Alphabetically printed.");
-
-                        await component.RespondAsync(res, ephemeral: true);
+                        else
+                        {
+                            ConsoleTrace("Loaded system modules not present.");
+                            await component.RespondAsync("Loaded system modules not present.", ephemeral: true);
+                        }
                         break;
                     default:
                         break;
@@ -403,41 +437,50 @@ public partial class Program
     }
 
     /// <summary>
-    /// Sends the stack trace in code blocks chunked by the 2000 characters limit.
+    /// Splits a collection of lines into multiple markdown code blocks limited to 2000 characters each.
     /// </summary>
-    private static async Task SendChunkedStackTraceAsync(SocketMessageComponent component, IEnumerable<string> lines)
+    /// <param name="lines">The lines of text to include inside the code blocks.</param>
+    /// <param name="header">Optional text inserted at the beginning of the first code block.</param>
+    /// <returns>A list of markdown-formatted code block strings.</returns>
+    public static List<string> SplitIntoChunks(string[] lines, string header = "")
     {
-        const int limit = 2000;
-        string current = $"```Trace ---------- Frame ---------- RVA ----- File Short ---\n";
-        bool hasSent = false;
+        const int maxLength = 2000;
+        const string start = "```\n";
+        const string end = "\n```";
+
+        List<string> res = [];
+        StringBuilder sb = new();
+        sb.Append(start);
+        if (!string.IsNullOrEmpty(header))
+        {
+            sb.Append(header);
+        }
 
         foreach (string line in lines)
         {
-            // +4 because we need space for ending "```"
-            if (current.Length + line.Length + 4 >= limit)
+            string lineWithNewline = line + "\n";
+
+            // If this line won't fit, close current block and start a new one
+            if (sb.Length + lineWithNewline.Length + end.Length > maxLength)
             {
-                // Close and start new chunk
-                current += "```";
-                await component.RespondAsync(current, ephemeral: true);
-                hasSent = true;
-                current = "```";
+                sb.Append(end);
+                res.Add(sb.ToString());
+
+                sb.Clear();
+                sb.Append(start);
             }
-            current += line + "\n";
+
+            sb.Append(lineWithNewline);
         }
 
-        // Send last block if anything remains
-        if (hasSent && current.Length > 3)
+        // Close final block if it has content
+        if (sb.Length > start.Length)
         {
-            current += "```";
-            await component.FollowupAsync(current, ephemeral: true);
-        }
-        else
-        {
-            current += "```";
-            await component.RespondAsync(current, ephemeral: true);
+            sb.Append(end);
+            res.Add(sb.ToString());
         }
 
-        ConsoleTrace("Stack trace printed.");
+        return res;
     }
 
     /// <summary>

@@ -69,6 +69,8 @@ public partial class LogParser
     /// </summary>
     public ExceptionInfo ExceptionInfo { get; private set; } = new();
 
+    public List<SystemFile> SystemModules { get; private set; } = new();
+
     /// <summary>
     /// Downloads the attachment in the message.
     /// </summary>
@@ -287,6 +289,17 @@ public partial class LogParser
             if (flagsMatch.Success)
             {
                 log.ExceptionInfo.Flags = flagsMatch.Groups[1].Value.Trim();
+            }
+
+            Match moduleRangeMatch = SystemModule().Match(line);
+            if (moduleRangeMatch.Success)
+            {
+                log.SystemModules.Add(new SystemFile
+                {
+                    ModuleRange = moduleRangeMatch.Groups[1].Value.Trim() + " " + moduleRangeMatch.Groups[2].Value.Trim(),
+                    Path = moduleRangeMatch.Groups[3].Value.Trim(),
+                    File = Path.GetFileName(moduleRangeMatch.Groups[3].Value.Trim()),
+                });
             }
         }
 
