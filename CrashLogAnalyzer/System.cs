@@ -22,6 +22,10 @@ public class System
     /// </summary>
     public string Gpu { get; set; } = "";
     /// <summary>
+    /// Vram used.
+    /// </summary>
+    public string Vram { get; set; } = "";
+    /// <summary>
     /// Wine version.
     /// </summary>
     /// <remarks>Linux only.</remarks>

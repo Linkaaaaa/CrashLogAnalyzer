@@ -387,6 +387,7 @@ public partial class Program
                         res += "Cpu: " + log.System.Cpu + "\n";
                         res += "Ram: " + log.System.Ram + "\n";
                         res += "Gpu: " + log.System.Gpu + "\n";
+                        res += "Vram: " + log.System.Vram + "\n";
                         res += !string.IsNullOrEmpty(log.System.Wine) ? "Wine: " + log.System.Wine + "\n" : "";
                         res += "```";
 
@@ -410,14 +411,14 @@ public partial class Program
                     case 3:
                         ConsoleTrace("Button ID 3 interacted.");
 
-                        if (log.SystemModules.Count > 0)
+                        if (log.SystemFiles.Count > 0)
                         {
-                            string[] moduleLines = [.. log.SystemModules.OrderBy(x => x.Path).Select(x =>
+                            string[] filesLines = [.. log.SystemFiles.OrderBy(x => x.Path).Select(x =>
                             {
                                 return x.Path;
                             })];
 
-                            List<string> moduleChunks = SplitIntoChunks(moduleLines);
+                            List<string> moduleChunks = SplitIntoChunks(filesLines);
                             for (int i = 0; i < moduleChunks.Count; i++)
                             {
                                 string line = moduleChunks[i];

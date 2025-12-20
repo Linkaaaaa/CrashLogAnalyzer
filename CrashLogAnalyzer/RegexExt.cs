@@ -58,6 +58,9 @@ public static partial class RegexExt
     [GeneratedRegex(_gpu, RegexOptions.IgnoreCase)]
     public static partial Regex Gpu();
 
+    [GeneratedRegex(_vram, RegexOptions.IgnoreCase)]
+    public static partial Regex Vram();
+
     [GeneratedRegex(_wine, RegexOptions.IgnoreCase)]
     public static partial Regex Wine();
 
@@ -70,8 +73,8 @@ public static partial class RegexExt
     [GeneratedRegex(_flags, RegexOptions.IgnoreCase)]
     public static partial Regex Flags();
 
-    [GeneratedRegex(_systemModule, RegexOptions.IgnoreCase)]
-    public static partial Regex SystemModule();
+    [GeneratedRegex(_systemFile, RegexOptions.IgnoreCase)]
+    public static partial Regex SystemFile();
 
     private const string _arcdpsBuild = @"(?:build\s+|arcdps\s+)?([0-9]{8}\.[0-9]{6}-[0-9]+-[A-Za-z0-9]+)";
     private const string _extensions = @"^.*extensions:.*$";
@@ -88,11 +91,12 @@ public static partial class RegexExt
     private const string _arcdpsAsAddon = @"^.*\bas addon\b.*$";
     private const string _windows = @"^\s*windows:\s*([0-9]+(?:\.[0-9]+)*)\s*$";
     private const string _cpu = @"^\s*cpu:\s*(.+)$";
-    private const string _ram = @"^\s*ram:\s*(.+)$";
+    private const string _ram = @"^\s*system ram:\s*(.+)$";
     private const string _gpu = @"^\s*gpu:\s*(.+)$";
+    private const string _vram = @"^\s*vram:\s*(.+)$";
     private const string _wine = @"^\s*wine:\s*(.+)$";
     private const string _code = @"^\s*code:\s*(.+)$";
     private const string _address = @"^\s*address:\s*(.+)$";
     private const string _flags = @"^\s*flags:\s*(.+)$";
-    private const string _systemModule = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
+    private const string _systemFile = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
 }

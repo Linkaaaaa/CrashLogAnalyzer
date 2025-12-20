@@ -69,7 +69,7 @@ public partial class LogParser
     /// </summary>
     public ExceptionInfo ExceptionInfo { get; private set; } = new();
 
-    public List<SystemFile> SystemModules { get; private set; } = new();
+    public List<SystemFile> SystemFiles { get; private set; } = new();
 
     /// <summary>
     /// Downloads the attachment in the message.
@@ -266,6 +266,12 @@ public partial class LogParser
                 log.System.Gpu = gpuMatch.Groups[1].Value.Trim();
             }
 
+            Match vramMatch = Vram().Match(line);
+            if (vramMatch.Success)
+            {
+                log.System.Vram += vramMatch.Groups[1].Value.Trim();
+            }
+
             Match wineMatch = Wine().Match(line);
             if (wineMatch.Success)
             {
@@ -291,14 +297,14 @@ public partial class LogParser
                 log.ExceptionInfo.Flags = flagsMatch.Groups[1].Value.Trim();
             }
 
-            Match moduleRangeMatch = SystemModule().Match(line);
-            if (moduleRangeMatch.Success)
+            Match systemFileMatch = SystemFile().Match(line);
+            if (systemFileMatch.Success)
             {
-                log.SystemModules.Add(new SystemFile
+                log.SystemFiles.Add(new SystemFile
                 {
-                    ModuleRange = moduleRangeMatch.Groups[1].Value.Trim() + " " + moduleRangeMatch.Groups[2].Value.Trim(),
-                    Path = moduleRangeMatch.Groups[3].Value.Trim(),
-                    File = Path.GetFileName(moduleRangeMatch.Groups[3].Value.Trim()),
+                    ModuleRange = systemFileMatch.Groups[1].Value.Trim() + " " + systemFileMatch.Groups[2].Value.Trim(),
+                    Path = systemFileMatch.Groups[3].Value.Trim(),
+                    File = Path.GetFileName(systemFileMatch.Groups[3].Value.Trim()),
                 });
             }
         }
