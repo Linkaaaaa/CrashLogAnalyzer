@@ -70,12 +70,16 @@ public partial class Program
         SlashCommandBuilder candyCommand = new SlashCommandBuilder()
             .WithName("candy")
             .WithDescription("What to do with arcdps candy addons");
+        SlashCommandBuilder infoCommand = new SlashCommandBuilder()
+            .WithName("info")
+            .WithDescription("Information regarding the bot and ArcDPS.");
 
         try
         {
             ConsoleTrace("Initializing /commands.");
             await _client.CreateGlobalApplicationCommandAsync(interferenceCommand.Build());
             await _client.CreateGlobalApplicationCommandAsync(candyCommand.Build());
+            await _client.CreateGlobalApplicationCommandAsync(infoCommand.Build());
         }
         catch (Exception ex)
         {
@@ -236,40 +240,61 @@ public partial class Program
 
     private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        if (command.Data.Name == "interference")
+        switch (command.Data.Name)
         {
-            ConsoleTrace("Interference command executed, building embed.");
+            case "interference":
+                ConsoleTrace("Interference command executed, building embed.");
 
-            EmbedBuilder embedBuilder = new EmbedBuilder()
-                .WithColor(_blue)
-                .WithTitle("ArcDPS Interference")
-                .AddField("The following software interfere with ArcDPS when loaded", $"{Software}")
-                .AddField("The interference aren't present when loaded through Nexus", "https://discord.gg/raidcore")
-                .AddField("Troubleshooting steps", "https://codimd.knox.moe/s/7i-MmOub5")
-                .AddField("Further help needed?", "Ask in #arc-dps-issues channel")
-                .WithFooter(_embedFooterBuilder)
-                .WithTimestamp(DateTimeOffset.Now);
+                EmbedBuilder interferenceBuilder = new EmbedBuilder()
+                    .WithColor(_blue)
+                    .WithTitle("ArcDPS Interference")
+                    .AddField("The following software interfere with ArcDPS when loaded", $"{Software}")
+                    .AddField("The interference aren't present when loaded through Nexus", "https://discord.gg/raidcore")
+                    .AddField("Troubleshooting steps", "https://codimd.knox.moe/s/7i-MmOub5")
+                    .AddField("Further help needed?", "Ask in #arc-dps-issues channel")
+                    .WithFooter(_embedFooterBuilder)
+                    .WithTimestamp(DateTimeOffset.Now);
 
-            ConsoleTrace("Sending interference command embed.");
+                ConsoleTrace("Sending interference command embed.");
 
-            await command.RespondAsync(embed: embedBuilder.Build());
-        }
+                await command.RespondAsync(embed: interferenceBuilder.Build());
+                break;
+            case "candy":
+                ConsoleTrace("Candy command executed, building embed.");
 
-        if (command.Data.Name == "candy")
-        {
-            ConsoleTrace("Candy command executed, building embed.");
+                EmbedBuilder candyBuilder = new EmbedBuilder()
+                    .WithColor(_blue)
+                    .WithTitle("ArcDPS candy addons")
+                    .AddField("Do you have these addons?", "- arcdps_fastload\n- arcdps_gearcheck")
+                    .AddField("What to do?", "Please remove them before requesting further assistance.")
+                    .WithFooter(_embedFooterBuilder)
+                    .WithTimestamp(DateTimeOffset.Now);
 
-            EmbedBuilder embedBuilder = new EmbedBuilder()
-                .WithColor(_blue)
-                .WithTitle("ArcDPS candy addons")
-                .AddField("Do you have these addons?", "- arcdps_fastload\n- arcdps_gearcheck")
-                .AddField("What to do?", "Please remove them before requesting further assistance.")
-                .WithFooter(_embedFooterBuilder)
-                .WithTimestamp(DateTimeOffset.Now);
+                ConsoleTrace("Sending candy command embed.");
 
-            ConsoleTrace("Sending candy command embed.");
+                await command.RespondAsync(embed: candyBuilder.Build());
+                break;
+            case "info":
+                ConsoleTrace("Info command executed, building embed.");
 
-            await command.RespondAsync(embed: embedBuilder.Build());
+                EmbedBuilder infoBuilder = new EmbedBuilder()
+                    .WithColor(_blue)
+                    .WithTitle("Crash Log Analyzer")
+                    .WithDescription("This bot analyzes ArcDPS crash logs and provides a summary with inspection features.")
+                    .AddField("Source Code", "https://github.com/Linkaaaaa/CrashLogAnalyzer")
+                    .AddField("ArcDPS", "https://www.deltaconnected.com/arcdps/")
+                    .AddField("Elite Insights", "https://discord.gg/T4kSbKJ5Sf")
+                    .AddField("Raidcore", "https://discord.gg/raidcore")
+                    .AddField("Troubleshooting", "https://codimd.knox.moe/s/7i-MmOub5")
+                    .WithFooter(_embedFooterBuilder)
+                    .WithTimestamp(DateTimeOffset.Now);
+
+                ConsoleTrace("Sending info command embed.");
+
+                await command.RespondAsync(embed: infoBuilder.Build());
+                break;
+            default:
+                break;
         }
     }
 
