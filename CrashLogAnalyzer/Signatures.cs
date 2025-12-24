@@ -3,7 +3,7 @@
 /// <summary>
 /// Extensions signatures.
 /// </summary>
-public class Signatures
+public static class Signatures
 {
     public static readonly string ArcdpsIntegration = "FED81763";
     public static readonly string Fastload_Candy = "F457104D";

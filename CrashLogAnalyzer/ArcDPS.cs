@@ -22,7 +22,7 @@ public class ArcDPS
     /// <item>Nexus</item>
     /// </list>
     /// </summary>
-    public enum LoadMethod : int
+    public enum LoadMethod
     {
         Standalone = 0,
         AddonLoader = 1,

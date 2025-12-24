@@ -14,7 +14,7 @@ public class StackTrace
     /// </summary>
     public string Frame { get; set; } = "";
     /// <summary>
-    /// Module relative adddress of instruction.
+    /// Module relative address of instruction.
     /// </summary>
     public string Rva { get; set; } = "";
     /// <summary>

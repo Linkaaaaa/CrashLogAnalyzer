@@ -9,7 +9,7 @@ namespace CrashLogAnalyzer;
 /// <summary>
 /// Main class for parsing ArcDPS crash logs.
 /// </summary>
-public partial class LogParser
+public class LogParser
 {
     /// <summary>
     /// Validates the attachment file type to be .log or .txt.
@@ -312,18 +312,15 @@ public partial class LogParser
         // Top-most stack trace entry per file name
         foreach (StackTrace entry in log.StackTraces)
         {
-            string fileShort = entry.FileShort!;
+            string fileShort = entry.FileShort;
 
-            if (!log.TopMostStackTraces.ContainsKey(fileShort))
-            {
-                log.TopMostStackTraces[fileShort] = entry;
-            }
+            log.TopMostStackTraces.TryAdd(fileShort, entry);
         }
 
         // Possible causes
         foreach (var group in log.TopMostStackTraces.Where(x => !x.Value.ViaExport))
         {
-            log.PossibleCauses.Add(group.Value.FileShort!);
+            log.PossibleCauses.Add(group.Value.FileShort);
         }
 
         ConsoleTrace("Parsing completed.");

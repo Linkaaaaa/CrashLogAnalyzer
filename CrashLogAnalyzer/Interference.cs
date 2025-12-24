@@ -1,7 +1,7 @@
 ﻿namespace CrashLogAnalyzer;
 
 /// <summary>
-/// Known software dll inferference.
+/// Known software dll interference.
 /// </summary>
 public static class Interference
 {
