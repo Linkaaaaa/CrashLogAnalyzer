@@ -59,7 +59,7 @@ public class Program
         await Task.Delay(-1);
     }
 
-    private Task LogAsync(LogMessage msg)
+    private static Task LogAsync(LogMessage msg)
     {
         Console.WriteLine(msg.ToString());
         return Task.CompletedTask;
@@ -127,7 +127,7 @@ public class Program
                     // Loaded extensions and to be removed extensions
                     foreach (Extension extension in _log.Extensions)
                     {
-                        extensions += $"{extension.Name}\n";
+                        extensions += $"{extension.Name} - {extension.Version}\n";
                         if (extension.Signature.Equals(Fastload_Candy) ||
                             extension.Signature.Equals(Gearcheck_Candy) ||
                             extension.Signature.Equals(KnowThyEnemy))
