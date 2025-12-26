@@ -397,9 +397,7 @@ public class Program
                     ConsoleTrace("Button ID 1 interacted.");
 
                     res = "```\n";
-                    res += !string.IsNullOrEmpty(_log.System.Wine)
-                        ? "Linux (corrected)\n"
-                        : "Windows: " + _log.System.Windows + "\n";
+                    res += "Windows: " + _log.System.Windows + "\n";
                     res += "Cpu: " + _log.System.Cpu + "\n";
                     res += "Ram: " + _log.System.Ram + "\n";
                     res += "Gpu: " + _log.System.Gpu + "\n";
