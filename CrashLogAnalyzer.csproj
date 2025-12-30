@@ -13,6 +13,9 @@
 		<RepositoryUrl>https://github.com/Linkaaaaa/CrashLogAnalyzer</RepositoryUrl>
 		<Authors>Linka</Authors>
 		<Description>Discord application to analyze ArcDPS crash logs.</Description>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<NeutralLanguage>en</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
