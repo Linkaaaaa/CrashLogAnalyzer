@@ -26,6 +26,10 @@ public class System
     /// </summary>
     public string Vram { get; set; } = "";
     /// <summary>
+    /// Graphics driver version.
+    /// </summary>
+    public string Driver { get; set; } = "";
+    /// <summary>
     /// Wine version.
     /// </summary>
     /// <remarks>Linux only.</remarks>

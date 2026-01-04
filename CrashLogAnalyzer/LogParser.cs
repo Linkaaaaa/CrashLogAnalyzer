@@ -277,6 +277,12 @@ public class LogParser
             {
                 log.System.Wine = wineMatch.Groups[1].Value.Trim();
             }
+            
+            Match driverMatch = Driver().Match(line);
+            if (driverMatch.Success)
+            {
+                log.System.Driver = driverMatch.Groups[1].Value.Trim();
+            }
 
             // Exception Info
             Match codeMatch = Code().Match(line);

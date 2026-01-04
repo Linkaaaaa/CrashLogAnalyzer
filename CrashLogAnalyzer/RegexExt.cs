@@ -63,6 +63,9 @@ public static partial class RegexExt
 
     [GeneratedRegex(_wine, RegexOptions.IgnoreCase)]
     public static partial Regex Wine();
+    
+    [GeneratedRegex(_driver, RegexOptions.IgnoreCase)]
+    public static partial Regex Driver();
 
     [GeneratedRegex(_code, RegexOptions.IgnoreCase)]
     public static partial Regex Code();
@@ -95,6 +98,7 @@ public static partial class RegexExt
     private const string _gpu = @"^\s*gpu:\s*(.+)$";
     private const string _vram = @"^\s*vram:\s*(.+)$";
     private const string _wine = @"^\s*wine:\s*(.+)$";
+    private const string _driver = @"^\s*driver:\s*(.+)$";
     private const string _code = @"^\s*code:\s*(.+)$";
     private const string _address = @"^\s*address:\s*(.+)$";
     private const string _flags = @"^\s*flags:\s*(.+)$";

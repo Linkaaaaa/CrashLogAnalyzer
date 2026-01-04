@@ -402,6 +402,7 @@ public class Program
                     res += "Ram: " + _log.System.Ram + "\n";
                     res += "Gpu: " + _log.System.Gpu + "\n";
                     res += "Vram: " + _log.System.Vram + "\n";
+                    res += "Driver: " + _log.System.Driver + "\n";
                     res += !string.IsNullOrEmpty(_log.System.Wine) ? "Wine: " + _log.System.Wine + "\n" : "";
                     res += "```";
 
