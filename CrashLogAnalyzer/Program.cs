@@ -79,6 +79,9 @@ public class Program
         SlashCommandBuilder setupCommand = new SlashCommandBuilder()
             .WithName("setup")
             .WithDescription("Examples of common arcdps setups.");
+        SlashCommandBuilder debuggerCommand = new SlashCommandBuilder()
+            .WithName("debugger")
+            .WithDescription("Tool to debug your addons installations.");
 
         try
         {
@@ -87,6 +90,7 @@ public class Program
             await _client.CreateGlobalApplicationCommandAsync(candyCommand.Build());
             await _client.CreateGlobalApplicationCommandAsync(infoCommand.Build());
             await _client.CreateGlobalApplicationCommandAsync(setupCommand.Build());
+            await _client.CreateGlobalApplicationCommandAsync(debuggerCommand.Build());
         }
         catch (Exception ex)
         {
@@ -355,6 +359,10 @@ public class Program
                 sb.Append("```");
                 
                 await command.RespondAsync(sb.ToString(), ephemeral: true);
+                break;
+            case "debugger":
+                const string url = "https://github.com/cheahjs/gw2-addon-setup-debug";
+                await command.RespondAsync($"Run this tool and send us the output: <{url}>");
                 break;
         }
     }
