@@ -402,7 +402,7 @@ public class Program
                 await component.RespondAsync("Skipped parsing: Not an ArcDPS crash log.", ephemeral: true);
             }
 
-            string res;
+            var sb = new StringBuilder();
 
             switch (buttonId)
             {
@@ -420,14 +420,12 @@ public class Program
                             })
                         ];
 
-                        List<string> chunks = SplitIntoChunks(lines,
-                            "Trace ---------- Frame ---------- RVA ----- File Short ---\n");
+                        List<string> chunks = SplitIntoChunks(lines, "Trace ---------- Frame ---------- RVA ----- File Short ---\n");
                         ConsoleTrace($"Response Chunks: {chunks.Count}");
 
                         if (chunks.Count > MessagesTimeoutLimit)
                         {
-                            await component.RespondAsync("```\nStack trace too long, download the log file.\n```",
-                                ephemeral: true);
+                            await component.RespondAsync("```\nStack trace too long, download the log file.\n```", ephemeral: true);
                         }
                         else
                         {
@@ -457,32 +455,37 @@ public class Program
                 case 1:
                     ConsoleTrace("Button ID 1 interacted.");
 
-                    res = "```\n";
-                    res += "Windows: " + _log.System.Windows + "\n";
-                    res += "Cpu: " + _log.System.Cpu + "\n";
-                    res += "Ram: " + _log.System.Ram + "\n";
-                    res += "Gpu: " + _log.System.Gpu + "\n";
-                    res += "Vram: " + _log.System.Vram + "\n";
-                    res += "Driver: " + _log.System.Driver + "\n";
-                    res += !string.IsNullOrEmpty(_log.System.Wine) ? "Wine: " + _log.System.Wine + "\n" : "";
-                    res += "```";
+                    sb.AppendLine("```");
+                    sb.AppendLine($"Windows: {_log.System.Windows}");
+                    sb.AppendLine($"Cpu: {_log.System.Cpu}");
+                    sb.AppendLine($"Ram: {_log.System.Ram}");
+                    sb.AppendLine($"Gpu: {_log.System.Gpu}");
+                    sb.AppendLine($"Vram: {_log.System.Vram}");
+                    sb.AppendLine($"Driver: {_log.System.Driver}");
 
+                    if (!string.IsNullOrEmpty(_log.System.Wine))
+                    {
+                        sb.AppendLine($"Wine: {_log.System.Wine}");
+                    }
+
+                    sb.Append("```");
+                    
                     ConsoleTrace("System information printed.");
 
-                    await component.RespondAsync(res, ephemeral: true);
+                    await component.RespondAsync(sb.ToString(), ephemeral: true);
                     break;
                 case 2:
                     ConsoleTrace("Button ID 2 interacted.");
 
-                    res = "```\n";
-                    res += "Code: " + _log.ExceptionInfo.Code + "\n";
-                    res += "Address: " + _log.ExceptionInfo.Address + "\n";
-                    res += "Flags: " + _log.ExceptionInfo.Flags + "\n";
-                    res += "```";
+                    sb.AppendLine("```");
+                    sb.AppendLine($"Code: {_log.ExceptionInfo.Code}");
+                    sb.AppendLine($"Address: {_log.ExceptionInfo.Address}");
+                    sb.AppendLine($"Flags: {_log.ExceptionInfo.Flags}");
+                    sb.Append("```");
 
                     ConsoleTrace("Exception Information printed.");
 
-                    await component.RespondAsync(res, ephemeral: true);
+                    await component.RespondAsync(sb.ToString(), ephemeral: true);
                     break;
                 case 3:
                     ConsoleTrace("Button ID 3 interacted.");
@@ -496,8 +499,7 @@ public class Program
 
                         if (moduleChunks.Count > MessagesTimeoutLimit)
                         {
-                            await component.RespondAsync(
-                                "```\nLoaded system modules too long, download the log file.\n```", ephemeral: true);
+                            await component.RespondAsync("```\nLoaded system modules too long, download the log file.\n```", ephemeral: true);
                         }
                         else
                         {
