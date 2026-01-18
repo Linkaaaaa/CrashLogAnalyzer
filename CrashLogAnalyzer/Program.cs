@@ -69,13 +69,16 @@ public class Program
     {
         SlashCommandBuilder interferenceCommand = new SlashCommandBuilder()
             .WithName("interference")
-            .WithDescription("Print current known interfering software");
+            .WithDescription("Print current known interfering software.");
         SlashCommandBuilder candyCommand = new SlashCommandBuilder()
             .WithName("candy")
-            .WithDescription("What to do with arcdps candy addons");
+            .WithDescription("What to do with arcdps candy addons.");
         SlashCommandBuilder infoCommand = new SlashCommandBuilder()
             .WithName("info")
             .WithDescription("Information regarding the bot and ArcDPS.");
+        SlashCommandBuilder setupCommand = new SlashCommandBuilder()
+            .WithName("setup")
+            .WithDescription("Examples of common arcdps setups.");
 
         try
         {
@@ -83,6 +86,7 @@ public class Program
             await _client.CreateGlobalApplicationCommandAsync(interferenceCommand.Build());
             await _client.CreateGlobalApplicationCommandAsync(candyCommand.Build());
             await _client.CreateGlobalApplicationCommandAsync(infoCommand.Build());
+            await _client.CreateGlobalApplicationCommandAsync(setupCommand.Build());
         }
         catch (Exception ex)
         {
@@ -294,6 +298,63 @@ public class Program
                 ConsoleTrace("Sending info command embed.");
 
                 await command.RespondAsync(embed: infoBuilder.Build());
+                break;
+            case "setup":
+                ConsoleTrace("Setup command executed, printing setup.");
+
+                var sb = new StringBuilder();
+                sb.AppendLine("Common setups for ArcDPS\n");
+                
+                sb.AppendLine("Default: as proxy");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - ArcDPS");
+                sb.Append("```");
+
+                sb.AppendLine("Nexus: ArcDPS as addon");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - Nexus");
+                sb.AppendLine("<GW2>/addons/arcdps.dll - ArcDPS");
+                sb.Append("```");
+
+                sb.AppendLine("Addon Loader");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/addonLoader.dll");
+                sb.AppendLine("<GW2>/d3d11.dll - Addon Loader");
+                sb.AppendLine("<GW2>/dxgi.dll - Addon Loader");
+                sb.AppendLine("<GW2>/bin64/dxgi.dll - Addon Loader");
+                sb.AppendLine("<GW2>/bin64/cef/dxgi.dll - Addon Loader");
+                sb.AppendLine("<GW2>/addons/gw2addon_arcdps.dll - ArcDPS");
+                sb.Append("```");
+
+                sb.AppendLine("Chainload");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - ArcDPS / Nexus");
+                sb.AppendLine("<GW2>/d3d11_chainloading.dll - Any DirectX Proxy");
+                sb.Append("```");
+
+                sb.AppendLine("ReShade");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - ReShade");
+                sb.AppendLine("<GW2>/dxgi.dll - ArcDPS");
+                sb.AppendLine("<GW2>/bin64/cef/dxgi.dll - ArcDPS");
+                sb.Append("```");
+                
+                sb.AppendLine("ReShade - ArcDPS as loader");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - ArcDPS");
+                sb.AppendLine("<GW2>/dxgi.dll - ReShade");
+                sb.AppendLine("<GW2>/bin64/cef/dxgi.dll - ReShade");
+                sb.Append("```");
+                
+                sb.AppendLine("ReShade - Nexus as loader");
+                sb.AppendLine("```");
+                sb.AppendLine("<GW2>/d3d11.dll - Nexus");
+                sb.AppendLine("<GW2>/dxgi.dll - ReShade");
+                sb.AppendLine("<GW2>/bin64/cef/dxgi.dll - ReShade");
+                sb.AppendLine("<GW2>/addons/arcdps.dll - ArcDPS");
+                sb.Append("```");
+                
+                await command.RespondAsync(sb.ToString(), ephemeral: true);
                 break;
         }
     }
