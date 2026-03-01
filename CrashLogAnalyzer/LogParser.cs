@@ -61,15 +61,13 @@ public class LogParser
     /// </summary>
     public System System { get; private set; } = new();
     /// <summary>
-    /// Log line containing "info: game exit". Present for crash log on game shut down.
-    /// </summary>
-    public bool GameExit { get; private set; } = false;
-    /// <summary>
     /// Information about the exception that caused the crash.
     /// </summary>
     public ExceptionInfo ExceptionInfo { get; private set; } = new();
-
-    public List<SystemFile> SystemFiles { get; private set; } = new();
+    /// <summary>
+    /// Loaded system files.
+    /// </summary>
+    public List<SystemFile> SystemFiles { get; private set; } = [];
 
     /// <summary>
     /// Downloads the attachment in the message.
@@ -124,7 +122,6 @@ public class LogParser
         {
             IsValidFormat = true,
             HasValidContent = file.Any(x => x.Contains("info: build")),
-            GameExit = file.Any(x => x.Contains("info: game exit")),
         };
 
         foreach (string line in file)
