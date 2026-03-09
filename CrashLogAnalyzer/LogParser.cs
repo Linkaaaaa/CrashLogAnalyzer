@@ -286,6 +286,11 @@ public class LogParser
             if (codeMatch.Success)
             {
                 log.ExceptionInfo.Code = codeMatch.Groups[1].Value.Trim();
+                string statusCode = ExceptionInfo.ExceptionStatusCodes.FirstOrDefault(x => x.Key == log.ExceptionInfo.Code).Value;
+                if (statusCode != null)
+                {
+                    log.ExceptionInfo.Code += ": " + statusCode;
+                }
             }
 
             Match addressMatch = Address().Match(line);
