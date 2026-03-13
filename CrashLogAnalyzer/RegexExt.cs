@@ -76,6 +76,15 @@ public static partial class RegexExt
     [GeneratedRegex(_flags, RegexOptions.IgnoreCase)]
     public static partial Regex Flags();
 
+    [GeneratedRegex(_parameter0, RegexOptions.IgnoreCase)]
+    public static partial Regex Parameter0();
+
+    [GeneratedRegex(_parameter1, RegexOptions.IgnoreCase)]
+    public static partial Regex Parameter1();
+
+    [GeneratedRegex(_text, RegexOptions.IgnoreCase)]
+    public static partial Regex Text();
+
     [GeneratedRegex(_systemFile, RegexOptions.IgnoreCase)]
     public static partial Regex SystemFile();
 
@@ -102,5 +111,8 @@ public static partial class RegexExt
     private const string _code = @"^\s*code:\s*(.+)$";
     private const string _address = @"^\s*address:\s*(.+)$";
     private const string _flags = @"^\s*flags:\s*(.+)$";
+    private const string _parameter0 = @"^\s*parameter0:\s*(.+)$";
+    private const string _parameter1 = @"^\s*parameter1:\s*(.+)$";
+    private const string _text = @"^\s*text:\s*(.+)$";
     private const string _systemFile = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
 }

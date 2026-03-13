@@ -289,7 +289,7 @@ public class LogParser
                 string statusCode = ExceptionInfo.ExceptionStatusCodes.FirstOrDefault(x => x.Key == log.ExceptionInfo.Code).Value;
                 if (statusCode != null)
                 {
-                    log.ExceptionInfo.Code += ": " + statusCode;
+                    log.ExceptionInfo.StatusCode = statusCode;
                 }
             }
 
@@ -305,6 +305,25 @@ public class LogParser
                 log.ExceptionInfo.Flags = flagsMatch.Groups[1].Value.Trim();
             }
 
+            Match parameter0Match = Parameter0().Match(line);
+            if (parameter0Match.Success)
+            {
+                log.ExceptionInfo.Parameter0 = parameter0Match.Groups[1].Value.Trim();
+            }
+
+            Match parameter1Match = Parameter1().Match(line);
+            if (parameter1Match.Success)
+            {
+                log.ExceptionInfo.Parameter1 = parameter1Match.Groups[1].Value.Trim();
+            }
+
+            Match textMatch = Text().Match(line);
+            if (textMatch.Success)
+            {
+                log.ExceptionInfo.Text = textMatch.Groups[1].Value.Trim();
+            }
+
+            // System Files
             Match systemFileMatch = SystemFile().Match(line);
             if (systemFileMatch.Success)
             {

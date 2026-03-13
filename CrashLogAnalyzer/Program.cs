@@ -477,9 +477,12 @@ public class Program
                     ConsoleTrace("Button ID 2 interacted.");
 
                     sb.AppendLine("```");
-                    sb.AppendLine($"Code: {_log.ExceptionInfo.Code}");
+                    sb.AppendLine($"Code: {_log.ExceptionInfo.Code} - {_log.ExceptionInfo.StatusCode}");
                     sb.AppendLine($"Address: {_log.ExceptionInfo.Address}");
                     sb.AppendLine($"Flags: {_log.ExceptionInfo.Flags}");
+                    sb.AppendLine($"Parameter0: {_log.ExceptionInfo.Parameter0}");
+                    sb.AppendLine($"Parameter1: {_log.ExceptionInfo.Parameter1}");
+                    sb.AppendLine($"Text: {_log.ExceptionInfo.Text}");
                     sb.Append("```");
 
                     ConsoleTrace("Exception Information printed.");
