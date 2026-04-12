@@ -171,14 +171,25 @@ public class Program
                     AddEmbedNotEmptyField(embedBuilder, "Errors", errors);
                     AddEmbedNotEmptyField(embedBuilder, "Stack", stack, true);
 
-                    if (_log.Errors.Any(x => x.Contains("nvwgf2umx.dll")))
+                    foreach (string error in _log.Errors)
                     {
-                        AddEmbedNotEmptyField(embedBuilder,
-                            "NVIDIA graphics driver crash",
-                            "The crash involves nvwgf2umx.dll (NVIDIA graphics driver).\n" +
-                            "If you have updated recently, downgrade the drivers to a previous version.\n" +
-                            "If there is another update available, try to upgrade to the latest version.\n" +
-                            "This could also be caused by Guild Wars 2 or a silent issue in ArcDPS or extensions.");
+                        if (error.Contains("nvwgf2umx.dll"))
+                        {
+                            AddEmbedNotEmptyField(embedBuilder,
+                                "NVIDIA graphics driver crash",
+                                "The crash involves nvwgf2umx.dll (NVIDIA graphics driver).\n" +
+                                "If you have updated recently, downgrade the drivers to a previous version.\n" +
+                                "If there is another update available, try to upgrade to the latest version.\n" +
+                                "This could also be caused by Guild Wars 2 or a silent issue in ArcDPS or extensions.");
+                        }
+                        if (error.Contains("(nullptr)"))
+                        {
+                            string[] split = error.Split('"');
+                            AddEmbedNotEmptyField(embedBuilder,
+                                "Null pointer reference",
+                                $"Memory allocation {split[1]} referenced a null pointer {split[3]}.\n" +
+                                "Game possibly ran out of available memory.");
+                        }
                     }
 
                     AddEmbedNotEmptyField(embedBuilder, "Possible causes", causes);
