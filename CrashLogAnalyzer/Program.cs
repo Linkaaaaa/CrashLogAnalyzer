@@ -234,17 +234,6 @@ public class Program
                 else if (_log.IsValidFormat)
                 {
                     ConsoleTrace("Attachment with invalid content, skipping parsing.");
-
-                    EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .WithColor(_blue)
-                        .WithTitle($"Analyzing {attachment.Filename}")
-                        .WithFooter(_embedFooterBuilder)
-                        .WithTimestamp(DateTimeOffset.Now);
-                    embedBuilder.AddField("Not an ArcDPS crash log", "Skipped parsing.");
-
-                    ConsoleTrace("Sending embed.");
-
-                    await message.Channel.SendMessageAsync(embed: embedBuilder.Build());
                 }
             }
         }
