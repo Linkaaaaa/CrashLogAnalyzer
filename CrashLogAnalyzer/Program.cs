@@ -192,6 +192,15 @@ public class Program
                         }
                     }
 
+                    string mismatches = string.Join("\n", _log.WarningImguiMismatchesAddons);
+                    if (warnings.Contains("imgui version mismatch: 18000 != 19270"))
+                    {
+                        AddEmbedNotEmptyField(embedBuilder,
+                            "ImGui version mismatch",
+                            "The following addons need to be updated to their 1.92.7 imgui version or removed entirely:\n" +
+                            mismatches);
+                    }
+
                     AddEmbedNotEmptyField(embedBuilder, "Possible causes", causes);
 
                     // External software interference. Skip when loaded by Nexus.

@@ -34,6 +34,9 @@ public static partial class RegexExt
     [GeneratedRegex(_warningsLoadedExtensions, RegexOptions.IgnoreCase)]
     public static partial Regex WarningsLoadedExtensions();
 
+    [GeneratedRegex(_warningsImguiMismatches, RegexOptions.IgnoreCase)]
+    public static partial Regex WarningsImguiMismatches();
+
     [GeneratedRegex(_errors, RegexOptions.IgnoreCase)]
     public static partial Regex Errors();
 
@@ -97,6 +100,7 @@ public static partial class RegexExt
     private const string _extensionsSignatures = @",\s*([A-Fa-f0-9]+)\)\s*$";
     private const string _warnings = @"warning:\s*(.+)$";
     private const string _warningsLoadedExtensions = @"warning:\s+skipped extension\s+""([^""]+)""\s*:\s*already loaded";
+    private const string _warningsImguiMismatches = @"^.*warning: failed to load ""[^""]*\\(?<addon>[^\\\""]+\.dll)"", imgui version mismatch: \d+ != \d+.*$";
     private const string _errors = @"^.*?\berror:\s*(.+)$";
     private const string _stackTraces = @"^(0x[0-9A-Fa-f]+):\s+(0x[0-9A-Fa-f]+)\s+:0\+([0-9A-Fa-f]+)\s+(\S+)(?:\s+\(via export\))?";
     private const string _systemDll = @"([A-Za-z0-9_\-]+\.dll)";
