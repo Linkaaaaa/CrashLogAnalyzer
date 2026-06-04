@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace CrashLogAnalyzer;
+﻿namespace CrashLogAnalyzer;
 
 public class ExceptionInfo
 {

@@ -64,6 +64,10 @@ public class LogParser
     /// </summary>
     public ExceptionInfo ExceptionInfo { get; private set; } = new();
     /// <summary>
+    /// Information about the client state when the crash happened.
+    /// </summary>
+    public ClientInfo ClientInfo { get; private set; } = new();
+    /// <summary>
     /// Loaded system files.
     /// </summary>
     public List<SystemFile> SystemFiles { get; private set; } = [];
@@ -320,6 +324,22 @@ public class LogParser
             if (textMatch.Success)
             {
                 log.ExceptionInfo.Text = textMatch.Groups[1].Value.Trim();
+            }
+
+            // Client Info
+            Match mapMatch = Map().Match(line);
+            if (mapMatch.Success)
+            {
+                log.ClientInfo.MapName = mapMatch.Groups[1].Value.Trim();
+                log.ClientInfo.MapId = mapMatch.Groups[2].Value.Trim();
+            }
+
+            Match locationMatch = Location().Match(line);
+            if (locationMatch.Success)
+            {
+                log.ClientInfo.LocationX = locationMatch.Groups[1].Value.Trim();
+                log.ClientInfo.LocationY = locationMatch.Groups[2].Value.Trim();
+                log.ClientInfo.LocationZ = locationMatch.Groups[3].Value.Trim();
             }
 
             // System Files

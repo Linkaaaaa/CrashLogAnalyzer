@@ -225,6 +225,7 @@ public class Program
                         .WithButton("System Info", $"{i}:{messageId}:1")
                         .WithButton("Exception Info", $"{i}:{messageId}:2")
                         .WithButton("Loaded Files", $"{i}:{messageId}:3")
+                        .WithButton("Client Info", $"{i}:{messageId}:4")
                         .Build();
 
                     ConsoleTrace("Sending embed.");
@@ -527,6 +528,18 @@ public class Program
                         await component.RespondAsync("Loaded system modules not present.", ephemeral: true);
                     }
 
+                    break;
+                case 4:
+                    ConsoleTrace("Button ID 4 interacted.");
+
+                    sb.AppendLine("```");
+                    sb.AppendLine($"Map: {_log.ClientInfo.MapName} | ID {_log.ClientInfo.MapId} |");
+                    sb.AppendLine($"Location: | X {_log.ClientInfo.LocationX} | Y {_log.ClientInfo.LocationY} | Z {_log.ClientInfo.LocationZ} |");
+                    sb.Append("```");
+
+                    ConsoleTrace("Client Information printed.");
+
+                    await component.RespondAsync(sb.ToString(), ephemeral: true);
                     break;
             }
         }
