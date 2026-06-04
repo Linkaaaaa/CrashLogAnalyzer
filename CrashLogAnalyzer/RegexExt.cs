@@ -121,6 +121,6 @@ public static partial class RegexExt
     private const string _parameter1 = @"^\s*parameter1:\s*(.+)$";
     private const string _text = @"^\s*text:\s*(.+)$";
     private const string _map = @"^\s*map:\s*(.+?)\s*\(([0-9]+)\)\s*$";
-    private const string _location = @"^\s*location:\s*(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s*$";
+    private const string _location = @"^\s*location:\s*((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s+((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s+((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s*$";
     private const string _systemFile = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
 }

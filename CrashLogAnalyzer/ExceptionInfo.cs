@@ -1,15 +1,42 @@
 ﻿namespace CrashLogAnalyzer;
 
+/// <summary>
+/// Information about the crash exception.
+/// </summary>
 public class ExceptionInfo
 {
+    /// <summary>
+    /// Exception code.
+    /// </summary>
     public string Code { get; set; } = "";
+    /// <summary>
+    /// Exception status code.
+    /// </summary>
     public string StatusCode { get; set; } = "";
+    /// <summary>
+    /// Memory address.
+    /// </summary>
     public string Address { get; set; } = "";
+    /// <summary>
+    /// Exception flags.
+    /// </summary>
     public string Flags { get; set; } = "";
+    /// <summary>
+    /// First exception parameter.
+    /// </summary>
     public string Parameter0 { get; set; } = "";
+    /// <summary>
+    /// Second exception parameter.
+    /// </summary>
     public string Parameter1 { get; set; } = "";
+    /// <summary>
+    /// Exception description text.
+    /// </summary>
     public string Text { get; set; } = "";
 
+    /// <summary>
+    /// Map of exception status codes to their descriptions.
+    /// </summary>
     public static readonly Dictionary<string, string> ExceptionStatusCodes = new()
     {
         { "0x00000000", "STATUS_WAIT_0"},

@@ -1,5 +1,8 @@
 ﻿namespace CrashLogAnalyzer;
 
+/// <summary>
+/// Information about the game client.
+/// </summary>
 public class ClientInfo
 {
     /// <summary>
