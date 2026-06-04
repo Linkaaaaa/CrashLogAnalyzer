@@ -32,11 +32,6 @@ public class LogParser
     /// </summary>
     public List<string> WarningsLoadedExtensions { get; private set; } = [];
     /// <summary>
-    /// Warning messages for ImGui version mismatches.
-    /// </summary>
-    public List<string> WarningImguiMismatches { get; private set; } = [];
-    public List<string> WarningImguiMismatchesAddons { get; private set; } = [];
-    /// <summary>
     /// Error messages.
     /// </summary>
     public HashSet<string> Errors { get; private set; } = [];
@@ -212,14 +207,6 @@ public class LogParser
             if (warningsLoadedExtensionsMatch.Success)
             {
                 log.WarningsLoadedExtensions.Add(warningsLoadedExtensionsMatch.Groups[1].Value.Trim());
-            }
-
-            // Warnings ImGui Mismatches
-            Match warningsImguiMismatch = WarningsImguiMismatches().Match(line);
-            if (warningsImguiMismatch.Success)
-            {
-                log.WarningImguiMismatches.Add(warningsImguiMismatch.Groups[0].Value.Trim());
-                log.WarningImguiMismatchesAddons.Add(warningsImguiMismatch.Groups[1].Value.Trim());
             }
 
             // Errors
