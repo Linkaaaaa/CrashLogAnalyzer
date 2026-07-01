@@ -342,6 +342,12 @@ public class LogParser
                 log.ClientInfo.LocationZ = locationMatch.Groups[3].Value.Trim();
             }
 
+            Match gameBuildMatch = Build().Match(line);
+            if (gameBuildMatch.Success)
+            {
+                log.ClientInfo.GameBuild = gameBuildMatch.Groups[1].Value.Trim();
+            }
+
             // System Files
             Match systemFileMatch = SystemFile().Match(line);
             if (systemFileMatch.Success)

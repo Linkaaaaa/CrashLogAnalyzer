@@ -25,4 +25,8 @@ public class ClientInfo
     /// Location Z coordinate.
     /// </summary>
     public string LocationZ { get; set; } = "";
+    /// <summary>
+    /// GW2 Build number.
+    /// </summary>
+    public string GameBuild { get; set; } = "";
 }

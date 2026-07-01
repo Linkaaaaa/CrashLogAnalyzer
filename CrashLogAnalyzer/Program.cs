@@ -535,6 +535,7 @@ public class Program
                     sb.AppendLine("```");
                     sb.AppendLine($"Map: {_log.ClientInfo.MapName} | ID {_log.ClientInfo.MapId} |");
                     sb.AppendLine($"Location: | X {_log.ClientInfo.LocationX} | Y {_log.ClientInfo.LocationY} | Z {_log.ClientInfo.LocationZ} |");
+                    sb.AppendLine($"Game Build: {_log.ClientInfo.GameBuild}");
                     sb.Append("```");
 
                     ConsoleTrace("Client Information printed.");

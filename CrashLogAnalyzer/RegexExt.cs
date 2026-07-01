@@ -91,6 +91,9 @@ public static partial class RegexExt
     [GeneratedRegex(_location, RegexOptions.IgnoreCase)]
     public static partial Regex Location();
 
+    [GeneratedRegex(_build, RegexOptions.IgnoreCase)]
+    public static partial Regex Build();
+
     [GeneratedRegex(_systemFile, RegexOptions.IgnoreCase)]
     public static partial Regex SystemFile();
 
@@ -122,5 +125,6 @@ public static partial class RegexExt
     private const string _text = @"^\s*text:\s*(.+)$";
     private const string _map = @"^\s*map:\s*(.+?)\s*\(([0-9]+)\)\s*$";
     private const string _location = @"^\s*location:\s*((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s+((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s+((?:[+-]?\d+(?:\.\d+)?|[+-]?inf|nan))\s*$";
+    private const string _build = @"^\s*build:\s*(.+)$";
     private const string _systemFile = @"(0x[0-9A-Fa-f]+?) (0x[0-9A-Fa-f]+?) ([A-Z]:.+)";
 }
