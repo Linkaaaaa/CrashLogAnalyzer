@@ -171,6 +171,14 @@ public class Program
                     AddEmbedNotEmptyField(embedBuilder, "Errors", errors);
                     AddEmbedNotEmptyField(embedBuilder, "Stack", stack, true);
 
+                    if (warnings.Contains("18000 != 19270"))
+                    {
+                        AddEmbedNotEmptyField(embedBuilder,
+                            "Imgui version mismatch",
+                            "One or more extensions are using Imgui 1.80.0 instead of 1.92.7\n" +
+                            "Please check https://jscheah.me/arcdps-legacy-loader/ if your extensions have been ported and update them.");
+                    }
+
                     foreach (string error in _log.Errors)
                     {
                         if (error.Contains("nvwgf2umx.dll"))
