@@ -190,6 +190,13 @@ public class Program
                                 $"Memory allocation {split[1]} referenced a null pointer {split[3]}.\n" +
                                 "Game possibly ran out of available memory.");
                         }
+                        if (error.Contains("BgfxBuffer.cpp"))
+                        {
+                            AddEmbedNotEmptyField(embedBuilder,
+                                "GW2 Vertex Cache crash",
+                                "Occasional game crash regarding the vertex cache.\n" +
+                                "The cause of the crash is still being investigated.");
+                        }
                     }
 
                     AddEmbedNotEmptyField(embedBuilder, "Possible causes", causes);
