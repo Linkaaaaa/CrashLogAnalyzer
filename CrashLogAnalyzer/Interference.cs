@@ -10,7 +10,6 @@ public static class Interference
     private static readonly IReadOnlyList<string> Groupy = ["groupy_64.dll"];
     private static readonly IReadOnlyList<string> Medal = ["medal-hook64.dll"];
     private static readonly IReadOnlyList<string> NvidiaPhotoModeGameFilter = ["NvCamera64.dll"];
-    private static readonly IReadOnlyList<string> NvidiaSmoothMotion = ["nvcuda64.dll", "nvdxgdmal64.dll", "NvPresent64.dll"];
     private static readonly IReadOnlyList<string> Overwolf = ["OWClient.dll", "OWExplorer.dll", "OWUtils.dll"];
     private static readonly IReadOnlyList<string> RivaTurnerStatisticsServer = ["RTSSHooks64.dll"];
 
@@ -24,7 +23,6 @@ public static class Interference
         { "Groupy", Groupy },
         { "Medal", Medal },
         { "Nvidia Photo Mode", NvidiaPhotoModeGameFilter },
-        { "Nvidia Smooth Motion", NvidiaSmoothMotion },
         { "Overwolf", Overwolf },
         { "RivaTurner Statistics Server", RivaTurnerStatisticsServer },
     };
@@ -39,7 +37,6 @@ public static class Interference
         "- Citrix Workspace (v22+)",
         "- MyDesk Shield",
         "- Nvidia's GeForce Overlay",
-        "- Nvidia's Smooth Motion",
         "- ASUS GPU Tweak III",
         "- Afterburner",
         "- RivaTuner Statistics Server",
